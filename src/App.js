@@ -1,36 +1,27 @@
-import {BrowserRouter as Router, Route, Routes, Link} from "react-router-dom";
-import Users from "./components/users/Users";
-import Posts from "./components/posts/Posts";
-import Comments from "./components/comments/Comments";
+import {useReducer} from "react";
+
+function reduce(state, action) {
+    switch (action.type){
+        case 'inc A':
+            return{...state, a: state.a + action.payload};
+        case 'inc B':
+            return{...state, b: state.b + action.payload};
+        default:
+            return {...state};
+    }
+}
 
 export default function App() {
 
+    let [state, dispatch] = useReducer(reduce, {a: 0, b: 0})
+    console.log(state)
+
 
     return (
-        <Router>
-            <div>
-                <div>
-                    <Link to="users">users page
-                    </Link>
-                </div>
-                <div>
-                    <Link to="posts"> posts page</Link>
-                </div>
-                <div>
-                    <Link to="comments">comments page</Link>
-                </div>
+        <div>
+            <button onClick={() => dispatch({type: 'inc A', payload: 1})}>click me A</button>
+            <button onClick={() => dispatch({type: 'inc B', payload: 2})}>click me B</button>
 
-
-                <Routes>
-
-                    <Route path='users' element={<Users/>}/>
-
-                    <Route path='posts' element={<Posts/>}/>
-
-                    <Route path = 'comments' element={<Comments/>}/>
-
-                </Routes>
-            </div>
-        </Router>
+        </div>
     );
 }
